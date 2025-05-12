@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 1200px; 
+            margin: 40px auto; 
+            padding: 20px; 
+            background: #f8f9fa; 
+        }
+        .user-info { 
+            background: #ffffff; 
+            padding: 20px; 
+            border-radius: 5px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            margin-bottom: 20px; 
+        }
+        .action-section { 
+            margin-top: 30px; 
+            background: #fff; 
+            padding: 20px; 
+            border-radius: 5px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-action {
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+        }
+        .list-group-item {
+            transition: 0.3s;
+        }
+        .list-group-item:hover {
+            background: #e9ecef;
+        }
+        h2, h3 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-info">
+        <h1>Welcome, {{ name }}!</h1>
+        <p><strong>User Type:</strong> {{ user_type }}</p>
+        <p><strong>User ID:</strong> {{ user_id }}</p>
+    </div>
+
+    <div class="d-flex gap-2 mb-4">
+        <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+    </div>
+
+    <div class="action-section">
+        {% if user_type == 'Donor' %}
+        <h2>Donor Actions</h2>
+        <div class="d-grid gap-3 mb-4">
+            <a href="{{ url_for('add_availability') }}" class="btn btn-primary btn-action">
+                Add Food Availability
+            </a>
+        </div>
+
+        <h3>View Tables</h3>
+        <div class="list-group">
+            <a href="{{ url_for('view_table', table_name='donor') }}" class="list-group-item list-group-item-action">
+                View Donor Table
+            </a>
+            <a href="{{ url_for('view_table', table_name='distributor') }}" class="list-group-item list-group-item-action">
+                View Distributor Table
+            </a>
+            <a href="{{ url_for('view_table', table_name='availability') }}" class="list-group-item list-group-item-action">
+                View My Availability
+            </a>
+            <a href="{{ url_for('view_table', table_name='donations') }}" class="list-group-item list-group-item-action">
+                View Donations Table
+            </a>
+        </div>
+        {% elif user_type == 'Distributor' %}
+        <h2>Distributor Actions</h2>
+        <div class="d-grid gap-3 mb-4">
+            <a href="{{ url_for('add_donation') }}" class="btn btn-primary btn-action">
+                Record New Donation
+            </a>
+        </div>
+        
+        <h3>View Tables</h3>
+        <div class="list-group">
+            <a href="{{ url_for('view_table', table_name='donor') }}" class="list-group-item list-group-item-action">
+                View Donor Table
+            </a>
+            <a href="{{ url_for('view_table', table_name='distributor') }}" class="list-group-item list-group-item-action">
+                View Distribution Table
+            </a>
+            <a href="{{ url_for('view_table', table_name='availability') }}" class="list-group-item list-group-item-action">
+                View Availability Table
+            </a>
+            <a href="{{ url_for('view_table', table_name='donations') }}" class="list-group-item list-group-item-action">
+                View Donations Table
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

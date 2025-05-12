@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Donation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 40px auto; 
+            padding: 20px; 
+            background: #f8f9fa; 
+        }
+        .form-container { 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 5px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .required:after {
+            content: " *";
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Record New Donation</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST">
+            <div class="mb-3">
+                <label for="donor_id" class="form-label required">Donor</label>
+                <select class="form-select" id="donor_id" name="donor_id" required>
+                    <option value="">-- Select Donor --</option>
+                    {% for donor in donors %}
+                    <option value="{{ donor.donor_id }}">{{ donor.donor_name }} (ID: {{ donor.donor_id }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="meal_type" class="form-label required">Meal Type</label>
+                <input type="text" class="form-control" id="meal_type" name="meal_type" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="people_served" class="form-label required">People Served</label>
+                <input type="number" class="form-control" id="people_served" name="people_served" min="1" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="area_served" class="form-label required">Area Served</label>
+                <input type="text" class="form-control" id="area_served" name="area_served" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="date_serve" class="form-label required">Date Served</label>
+                <input type="date" class="form-control" id="date_serve" name="date_serve" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="note" class="form-label">Notes</label>
+                <textarea class="form-control" id="note" name="note" rows="3"></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Record Donation</button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+
+    <script>
+        // Set default date to today
+        document.getElementById('date_serve').valueAsDate = new Date();
+    </script>
+</body>
+</html>
